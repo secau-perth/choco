@@ -9,26 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  # Build using mono on Ubuntu
-  ubuntu-build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build with Mono
-      run: |
-        chmod +x build.sh
-        $GITHUB_WORKSPACE//build.sh -v
-    - name: Upload Ubuntu build results
-      uses: actions/upload-artifact@v2
-      # Always upload build results
-      if: ${{ always() }}
-      with:
-        name: ubuntu-build-results
-        path: |
-          build_output/build_artifacts/tests/index.html
-          build_output/_BuildInfo.xml
-          build_output/build.log    
-  # Build on Windows
+# Build on Windows
   windows-build:
     runs-on: windows-2019
     steps:
@@ -53,26 +34,6 @@ jobs:
       with:
         name: windows-build-nupkg
         path: code_drop\nuget\*.nupkg
-  # Build using mono on MacOS
-  macos-build:
-    runs-on: macos-latest
-    steps:
-     - uses: actions/checkout@v2
-     - name: Build with Mono
-       run: |
-          chmod +x build.sh
-          $GITHUB_WORKSPACE//build.sh -v
-     - name: Upload MacOS build results
-       uses: actions/upload-artifact@v2
-       # Always upload build results
-       if: ${{ always() }}
-       with:
-         name: macos-build-results
-         path: |
-           build_output/build_artifacts/tests/index.html
-           build_output/_BuildInfo.xml
-           build_output/build.log
-  # Build using Mono in Docker on Ubuntu
   docker-build:
     runs-on: ubuntu-latest
     steps:
